@@ -29,7 +29,9 @@ Toteutetaan **Tapahtumakalenteri**, jossa käyttäjät voivat lisätä, muokata,
 - Kalenterinäkymä, jossa käyttäjä näkee päivittäiset tapahtumat.
 - Tapahtuman lisäys-/muokkauslomake.
 - Lista tulevista tapahtumista (suodatus- ja hakutoiminnot).
-- Prototyypit suunnitellaan Figmaan ja liitetään tähän myöhemmin.
+
+![ui proto](https://github.com/user-attachments/assets/27a024bb-3e04-4128-aa5f-92d19fa1cfc1)
+
 
 ---
 
