@@ -2,7 +2,7 @@
 calendar-app
 
 ## Kuvaus
-Toteutetaan selainpohjainen **Tapahtumakalenteri**, jossa käyttäjät voivat lisätä, muokata, poistaa ja tarkastella tapahtumia. Sovellus toimii omalla backendillä (Node.js + SQLite3), ja käyttöliittymä on rakennettu Reactilla. Käyttöliittymässä on kalenterinäkymä ja tapahtumalistaus. Sovellus tallentaa tiedot paikalliseen tietokantaan ja toimii myös paikallisessa virtuaalikoneessa (VM).
+Toteutetaan **Tapahtumakalenteri**, jossa käyttäjät voivat lisätä, muokata, poistaa ja tarkastella tapahtumia. Sovellus toimii Node.js + SQLite3, ja käyttöliittymä Reactilla. Käyttöliittymässä on kalenterinäkymä ja tapahtumalistaus. Sovellus tallentaa tiedot paikalliseen tietokantaan ja toimii myös paikallisessa virtuaalikoneessa (VM).
 
 ---
 
