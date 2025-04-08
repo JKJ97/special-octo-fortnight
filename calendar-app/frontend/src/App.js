@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import MainLayout from './components/MainLayout';
 import CalendarView from './components/CalendarView';
-import AddEventForm from './components/AddEventForm';
 import EventListView from './components/EventListView';
 import EditEventModal from './components/EditEventModal';
+import AddEventModal from './components/AddEventModal';
 import axios from 'axios';
 import { Toast, ToastContainer } from 'react-bootstrap';
 
@@ -12,6 +12,7 @@ export default function App() {
   const [events, setEvents] = useState([]);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [eventToEdit, setEventToEdit] = useState(null);
+  const [addModalOpen, setAddModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [toastVariant, setToastVariant] = useState('success');
   const [showToast, setShowToast] = useState(false);
@@ -39,14 +40,8 @@ export default function App() {
 
   return (
     <>
-      <MainLayout onNavChange={setView}>
+      <MainLayout onNavChange={setView} onAddEventClick={() => setAddModalOpen(true)}>
         {view === 'calendar' && <CalendarView events={events} />}
-        {view === 'add' && (
-          <AddEventForm onEventAdded={() => {
-            fetchEvents();
-            showMessage('Tapahtuma lisätty', 'success');
-          }} />
-        )}
         {view === 'list' && (
           <EventListView
             events={events}
@@ -58,6 +53,15 @@ export default function App() {
           />
         )}
       </MainLayout>
+
+      <AddEventModal
+        show={addModalOpen}
+        onHide={() => setAddModalOpen(false)}
+        onEventAdded={() => {
+          fetchEvents();
+          showMessage('Tapahtuma lisätty', 'success');
+        }}
+      />
 
       <EditEventModal
         show={editModalOpen}

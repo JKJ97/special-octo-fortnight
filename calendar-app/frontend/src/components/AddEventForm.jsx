@@ -29,7 +29,6 @@ export default function AddEventForm({ onEventAdded }) {
   return (
     <Card className="mx-auto" style={{ maxWidth: '600px' }}>
       <Card.Body>
-        <Card.Title>Lisää uusi tapahtuma</Card.Title>
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>Otsikko</Form.Label>
