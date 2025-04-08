@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
+import Datetime from 'react-datetime';
+import 'react-datetime/css/react-datetime.css';
+import moment from 'moment';
+import 'moment/locale/fi';
+
+moment.locale('fi');
 
 export default function EditEventModal({ show, onHide, event, onSave }) {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     location: '',
-    start_time: '',
-    end_time: ''
+    start_time: moment(),
+    end_time: moment().add(1, 'hours')
   });
 
   useEffect(() => {
@@ -17,8 +23,8 @@ export default function EditEventModal({ show, onHide, event, onSave }) {
         title: event.title || '',
         description: event.description || '',
         location: event.location || '',
-        start_time: event.start_time || '',
-        end_time: event.end_time || ''
+        start_time: moment(event.start_time),
+        end_time: moment(event.end_time)
       });
     }
   }, [event]);
@@ -30,7 +36,14 @@ export default function EditEventModal({ show, onHide, event, onSave }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.put(`http://localhost:3001/api/events/${event.id}`, formData)
+
+    const updatedEvent = {
+      ...formData,
+      start_time: formData.start_time.toISOString(),
+      end_time: formData.end_time.toISOString()
+    };
+
+    axios.put(`http://localhost:3001/api/events/${event.id}`, updatedEvent)
       .then(() => {
         onSave();
         onHide();
@@ -39,7 +52,7 @@ export default function EditEventModal({ show, onHide, event, onSave }) {
   };
 
   return (
-    <Modal show={show} onHide={onHide} backdrop="static" size="lg">
+    <Modal show={show} onHide={onHide} centered size="md">
       <Modal.Header closeButton>
         <Modal.Title>Muokkaa tapahtumaa</Modal.Title>
       </Modal.Header>
@@ -80,25 +93,25 @@ export default function EditEventModal({ show, onHide, event, onSave }) {
           <Row>
             <Col>
               <Form.Group className="mb-3">
-                <Form.Label>Alkaa</Form.Label>
-                <Form.Control
-                  type="datetime-local"
-                  name="start_time"
+                <Form.Label>Alkamisaika</Form.Label>
+                <Datetime
                   value={formData.start_time}
-                  onChange={handleChange}
-                  required
+                  onChange={(val) => setFormData(prev => ({ ...prev, start_time: val }))}
+                  dateFormat="D.M.YYYY"
+                  timeFormat="HH:mm"
+                  locale="fi"
                 />
               </Form.Group>
             </Col>
             <Col>
               <Form.Group className="mb-3">
-                <Form.Label>Päättyy</Form.Label>
-                <Form.Control
-                  type="datetime-local"
-                  name="end_time"
+                <Form.Label>Päättymisaika</Form.Label>
+                <Datetime
                   value={formData.end_time}
-                  onChange={handleChange}
-                  required
+                  onChange={(val) => setFormData(prev => ({ ...prev, end_time: val }))}
+                  dateFormat="D.M.YYYY"
+                  timeFormat="HH:mm"
+                  locale="fi"
                 />
               </Form.Group>
             </Col>

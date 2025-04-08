@@ -1,0 +1,18 @@
+/* Hover-efekti kalenterin päiville */
+.rbc-month-view .rbc-day-bg:hover {
+    background-color: #f3f3f3;
+    cursor: pointer;
+  }
+
+/* Hover-efekti tapahtumille */
+.rbc-event:hover {
+  background-color: #265985 !important;
+  cursor: pointer;
+}
+
+.main-content {
+    margin-left: 200px;
+    padding: 2rem;
+  }
+
+  

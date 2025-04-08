@@ -7,6 +7,7 @@ import getDay from 'date-fns/getDay';
 import fi from 'date-fns/locale/fi';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import CustomToolbar from './CustomToolbar';
+import '../index.css';
 
 const locales = { fi };
 
@@ -18,7 +19,7 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-export default function CalendarView({ events }) {
+export default function CalendarView({ events, onAddEvent, onEventSelect }) {
   const [view, setView] = useState(Views.MONTH);
   const [date, setDate] = useState(new Date());
 
@@ -34,6 +35,46 @@ export default function CalendarView({ events }) {
     time: 'Aika',
     event: 'Tapahtuma',
     noEventsInRange: 'Ei tapahtumia tällä aikavälillä',
+  };
+
+  const handleSelectSlot = ({ start }) => {
+    if (onAddEvent) {
+      onAddEvent(start);
+    }
+  };
+
+  const dayPropGetter = () => {
+    return {
+      style: {
+        cursor: 'pointer',
+        transition: 'background-color 0.2s ease-in-out',
+      },
+      onMouseEnter: (e) => {
+        e.currentTarget.style.backgroundColor = '#f0f0f0';
+      },
+      onMouseLeave: (e) => {
+        e.currentTarget.style.backgroundColor = '';
+      },
+    };
+  };
+
+  const eventPropGetter = () => {
+    return {
+      style: {
+        backgroundColor: '#3174ad',
+        color: 'white',
+        borderRadius: '5px',
+        border: 'none',
+        cursor: 'pointer',
+        transition: 'background-color 0.2s ease-in-out',
+      },
+      onMouseEnter: (e) => {
+        e.currentTarget.style.backgroundColor = '#265985';
+      },
+      onMouseLeave: (e) => {
+        e.currentTarget.style.backgroundColor = '#3174ad';
+      },
+    };
   };
 
   return (
@@ -52,10 +93,15 @@ export default function CalendarView({ events }) {
         }))}
         startAccessor="start"
         endAccessor="end"
-        view={view} // Controlled view
-        date={date} // Controlled date
-        onNavigate={(newDate) => setDate(new Date(newDate))} // Update date
-        onView={(newView) => setView(newView)} // Update view
+        selectable
+        onSelectSlot={handleSelectSlot}
+        onSelectEvent={(event) => onEventSelect(event)}
+        view={view}
+        date={date}
+        onNavigate={(newDate) => setDate(new Date(newDate))}
+        onView={(newView) => setView(newView)}
+        dayPropGetter={dayPropGetter}
+        eventPropGetter={eventPropGetter}
         components={{
           toolbar: CustomToolbar,
         }}

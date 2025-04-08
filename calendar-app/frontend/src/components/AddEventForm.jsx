@@ -1,99 +1,106 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Form, Button, Row, Col, Card } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import Datetime from 'react-datetime';
+import 'react-datetime/css/react-datetime.css';
+import moment from 'moment';
+import 'moment/locale/fi';
+import { Row, Col, Form, Button } from 'react-bootstrap';
 
-export default function AddEventForm({ onEventAdded }) {
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    location: '',
-    start_time: '',
-    end_time: ''
-  });
+moment.locale('fi');
 
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
+export default function AddEventForm({ onEventAdded, defaultDate }) {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [location, setLocation] = useState('');
+  const [start, setStart] = useState(moment());
+  const [end, setEnd] = useState(moment().add(1, 'hours'));
 
-  const handleSubmit = e => {
+  useEffect(() => {
+    if (defaultDate?.start && defaultDate?.end) {
+      setStart(moment(defaultDate.start));
+      setEnd(moment(defaultDate.end));
+    }
+  }, [defaultDate]);
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:3001/api/events', formData)
-      .then(() => {
-        onEventAdded();
-        setFormData({ title: '', description: '', location: '', start_time: '', end_time: '' });
-      })
+
+    const newEvent = {
+      title,
+      description,
+      location,
+      start_time: start.toISOString(),
+      end_time: end.toISOString(),
+    };
+
+    fetch('http://localhost:3001/api/events', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newEvent),
+    })
+      .then(res => res.json())
+      .then(() => onEventAdded())
       .catch(err => console.error(err));
   };
 
   return (
-    <Card className="mx-auto" style={{ maxWidth: '600px' }}>
-      <Card.Body>
-        <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
+      <Form.Group className="mb-3">
+        <Form.Label>Otsikko</Form.Label>
+        <Form.Control
+          type="text"
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+          required
+        />
+      </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label>Kuvaus</Form.Label>
+        <Form.Control
+          as="textarea"
+          rows={2}
+          value={description}
+          onChange={e => setDescription(e.target.value)}
+        />
+      </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label>Sijainti</Form.Label>
+        <Form.Control
+          type="text"
+          value={location}
+          onChange={e => setLocation(e.target.value)}
+        />
+      </Form.Group>
+
+      <Row>
+        <Col>
           <Form.Group className="mb-3">
-            <Form.Label>Otsikko</Form.Label>
-            <Form.Control
-              type="text"
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-              required
+            <Form.Label>Alkamisaika</Form.Label>
+            <Datetime
+              value={start}
+              onChange={setStart}
+              dateFormat="D.M.YYYY"
+              timeFormat="HH:mm"
+              locale="fi"
             />
           </Form.Group>
-
+        </Col>
+        <Col>
           <Form.Group className="mb-3">
-            <Form.Label>Kuvaus</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={2}
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
+            <Form.Label>Päättymisaika</Form.Label>
+            <Datetime
+              value={end}
+              onChange={setEnd}
+              dateFormat="D.M.YYYY"
+              timeFormat="HH:mm"
+              locale="fi"
             />
           </Form.Group>
+        </Col>
+      </Row>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Sijainti</Form.Label>
-            <Form.Control
-              type="text"
-              name="location"
-              value={formData.location}
-              onChange={handleChange}
-            />
-          </Form.Group>
-
-          <Row>
-            <Col>
-              <Form.Group className="mb-3">
-                <Form.Label>Alkaa</Form.Label>
-                <Form.Control
-                  type="datetime-local"
-                  name="start_time"
-                  value={formData.start_time}
-                  onChange={handleChange}
-                  required
-                />
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group className="mb-3">
-                <Form.Label>Päättyy</Form.Label>
-                <Form.Control
-                  type="datetime-local"
-                  name="end_time"
-                  value={formData.end_time}
-                  onChange={handleChange}
-                  required
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-
-          <Button variant="primary" type="submit">
-            Lisää tapahtuma
-          </Button>
-        </Form>
-      </Card.Body>
-    </Card>
+      <Button type="submit" className="btn btn-primary">Tallenna</Button>
+    </Form>
   );
 }

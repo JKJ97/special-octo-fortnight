@@ -6,6 +6,7 @@ import EditEventModal from './components/EditEventModal';
 import AddEventModal from './components/AddEventModal';
 import axios from 'axios';
 import { Toast, ToastContainer } from 'react-bootstrap';
+import './index.css';
 
 export default function App() {
   const [view, setView] = useState('calendar');
@@ -13,6 +14,7 @@ export default function App() {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [eventToEdit, setEventToEdit] = useState(null);
   const [addModalOpen, setAddModalOpen] = useState(false);
+  const [addDefaultDate, setAddDefaultDate] = useState(null);
   const [toastMessage, setToastMessage] = useState('');
   const [toastVariant, setToastVariant] = useState('success');
   const [showToast, setShowToast] = useState(false);
@@ -32,6 +34,15 @@ export default function App() {
     setEditModalOpen(true);
   };
 
+  const handleAddEventFromCalendar = (date) => {
+    const start = new Date(date);
+    start.setHours(10, 0, 0, 0);
+    const end = new Date(date);
+    end.setHours(11, 0, 0, 0);
+    setAddDefaultDate({ start, end });
+    setAddModalOpen(true);
+  };
+
   const showMessage = (message, variant = 'success') => {
     setToastMessage(message);
     setToastVariant(variant);
@@ -40,8 +51,14 @@ export default function App() {
 
   return (
     <>
-      <MainLayout onNavChange={setView} onAddEventClick={() => setAddModalOpen(true)}>
-        {view === 'calendar' && <CalendarView events={events} />}
+      <MainLayout onNavChange={setView}>
+        {view === 'calendar' && (
+          <CalendarView
+            events={events}
+            onAddEvent={handleAddEventFromCalendar}
+            onEventSelect={handleEditEvent}
+          />
+        )}
         {view === 'list' && (
           <EventListView
             events={events}
@@ -56,7 +73,11 @@ export default function App() {
 
       <AddEventModal
         show={addModalOpen}
-        onHide={() => setAddModalOpen(false)}
+        onHide={() => {
+          setAddModalOpen(false);
+          setAddDefaultDate(null);
+        }}
+        defaultDate={addDefaultDate}
         onEventAdded={() => {
           fetchEvents();
           showMessage('Tapahtuma lisätty', 'success');
@@ -74,7 +95,13 @@ export default function App() {
       />
 
       <ToastContainer position="top-end" className="p-3">
-        <Toast bg={toastVariant} show={showToast} onClose={() => setShowToast(false)} delay={3000} autohide>
+        <Toast
+          bg={toastVariant}
+          show={showToast}
+          onClose={() => setShowToast(false)}
+          delay={3000}
+          autohide
+        >
           <Toast.Body className="text-white">{toastMessage}</Toast.Body>
         </Toast>
       </ToastContainer>

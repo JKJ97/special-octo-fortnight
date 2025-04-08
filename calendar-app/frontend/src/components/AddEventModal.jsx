@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal } from 'react-bootstrap';
 import AddEventForm from './AddEventForm';
 
-export default function AddEventModal({ show, onHide, onEventAdded }) {
+export default function AddEventModal({ show, onHide, onEventAdded, defaultDate }) {
   return (
     <Modal show={show} onHide={onHide} centered>
       <Modal.Header closeButton>
@@ -10,6 +10,7 @@ export default function AddEventModal({ show, onHide, onEventAdded }) {
       </Modal.Header>
       <Modal.Body>
         <AddEventForm
+          defaultDate={defaultDate} 
           onEventAdded={() => {
             onEventAdded();
             onHide();
