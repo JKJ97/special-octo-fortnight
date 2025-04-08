@@ -11,6 +11,7 @@ app.use(express.json());
 // Hae kaikki tapahtumat
 app.get('/api/events', (req, res) => {
   db.all('SELECT * FROM events', [], (err, rows) => {
+    res.set('Content-Type', 'application/json; charset=utf-8');
     if (err) {
       res.status(500).json({ error: err.message });
     } else {
@@ -26,6 +27,7 @@ app.post('/api/events', (req, res) => {
   const params = [title, description, location, start_time, end_time];
 
   db.run(query, params, function (err) {
+    res.set('Content-Type', 'application/json; charset=utf-8');
     if (err) {
       res.status(500).json({ error: err.message });
     } else {
@@ -47,6 +49,7 @@ app.put('/api/events/:id', (req, res) => {
   const params = [title, description, location, start_time, end_time, id];
 
   db.run(query, params, function (err) {
+    res.set('Content-Type', 'application/json; charset=utf-8');
     if (err) {
       res.status(500).json({ error: err.message });
     } else if (this.changes === 0) {
@@ -67,6 +70,7 @@ app.delete('/api/events/:id', (req, res) => {
     } else if (this.changes === 0) {
       res.status(404).json({ error: "Event not found" });
     } else {
+      res.set('Content-Type', 'application/json; charset=utf-8');
       res.json({ message: "Event deleted successfully" });
     }
   });
