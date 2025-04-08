@@ -25,7 +25,7 @@ export default function EventListView({ events, onEventDeleted, onEventEdit }) {
       <Col md={10} lg={8}>
         <Card>
           <Card.Body>
-            <h4 className="text-center mb-4">Tapahtumalista</h4>
+            <h4 className="text-center mb-4">Tulevat tapahtumat</h4>
             {sortedEvents.length === 0 ? (
               <p className="text-center">Ei tapahtumia</p>
             ) : (
