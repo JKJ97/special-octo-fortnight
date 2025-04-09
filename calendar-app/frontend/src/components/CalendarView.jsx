@@ -84,7 +84,7 @@ export default function CalendarView({ events, onAddEvent, onEventSelect }) {
         culture="fi"
         messages={messages}
         formats={{
-          weekdayFormat: (date) => format(date, 'EE', { locale: fi }),
+          weekdayFormat: (date) => format(date, 'EEEEEE', { locale: fi }),
         }}
         events={events.map((e) => ({
           ...e,

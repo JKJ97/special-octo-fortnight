@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import MainLayout from './components/MainLayout';
-import CalendarView from './components/CalendarView';
-import EventListView from './components/EventListView';
-import EditEventModal from './components/EditEventModal';
-import AddEventModal from './components/AddEventModal';
-import axios from 'axios';
-import { Toast, ToastContainer } from 'react-bootstrap';
-import './styles/index.css';
+import React, { useState, useEffect } from "react";
+import MainLayout from "./components/MainLayout";
+import CalendarView from "./components/CalendarView";
+import EventListView from "./components/EventListView";
+import EditEventModal from "./components/EditEventModal";
+import AddEventModal from "./components/AddEventModal";
+import axios from "axios";
+import { Toast, ToastContainer } from "react-bootstrap";
+import "./styles/index.css";
 
 export default function App() {
-  const [view, setView] = useState('calendar');
+  const [view, setView] = useState("calendar");
   const [events, setEvents] = useState([]);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [eventToEdit, setEventToEdit] = useState(null);
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [addDefaultDate, setAddDefaultDate] = useState(null);
-  const [toastMessage, setToastMessage] = useState('');
-  const [toastVariant, setToastVariant] = useState('success');
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastVariant, setToastVariant] = useState("success");
   const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
@@ -24,9 +24,10 @@ export default function App() {
   }, []);
 
   const fetchEvents = () => {
-    axios.get('http://localhost:3001/api/events')
-      .then(res => setEvents(res.data))
-      .catch(err => console.error(err));
+    axios
+      .get("http://localhost:3001/api/events")
+      .then((res) => setEvents(res.data))
+      .catch((err) => console.error(err));
   };
 
   const handleEditEvent = (event) => {
@@ -43,7 +44,7 @@ export default function App() {
     setAddModalOpen(true);
   };
 
-  const showMessage = (message, variant = 'success') => {
+  const showMessage = (message, variant = "success") => {
     setToastMessage(message);
     setToastVariant(variant);
     setShowToast(true);
@@ -52,19 +53,19 @@ export default function App() {
   return (
     <>
       <MainLayout onNavChange={setView}>
-        {view === 'calendar' && (
+        {view === "calendar" && (
           <CalendarView
             events={events}
             onAddEvent={handleAddEventFromCalendar}
             onEventSelect={handleEditEvent}
           />
         )}
-        {view === 'list' && (
+        {view === "list" && (
           <EventListView
             events={events}
             onEventDeleted={() => {
               fetchEvents();
-              showMessage('Tapahtuma poistettu', 'danger');
+              showMessage("Tapahtuma poistettu", "danger");
             }}
             onEventEdit={handleEditEvent}
           />
@@ -80,7 +81,7 @@ export default function App() {
         defaultDate={addDefaultDate}
         onEventAdded={() => {
           fetchEvents();
-          showMessage('Tapahtuma lisätty', 'success');
+          showMessage("Tapahtuma lisätty", "success");
         }}
       />
 
@@ -90,7 +91,12 @@ export default function App() {
         event={eventToEdit}
         onSave={() => {
           fetchEvents();
-          showMessage('Tiedot tallennettu', 'success');
+          showMessage("Tiedot tallennettu", "success");
+        }}
+        onDelete={() => {
+          fetchEvents();
+          showMessage("Tapahtuma poistettu", "danger");
+          setEditModalOpen(false);
         }}
       />
 

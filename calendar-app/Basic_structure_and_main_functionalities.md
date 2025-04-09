@@ -123,11 +123,17 @@ Toteutettu:
 ## 9. Käyttöliittymä ja vuorovaikutus
 - Käyttöliittymä on selkeä 
 
-- Sivupalkin avulla käyttäjä voi vaihtaa näkymää (kalenteri / tapahtumalistaus)
+- Highlight on hover efekti kalenterinäkymässä.
 
-- Käyttäjä voi lisätä tapahtuman klikkaamalla päivää kalenterista
+- Edellinen, Tänään ja Seuraava painikkeiden avulla voi selata kuukausia eteen- tai taaksepäin
 
-- Tapahtumia voi muokata tai poistaa molemmista näkymistä
+- Litistyvän tai laajenevan sivupalkin avulla käyttäjä voi vaihtaa näkymää (kalenteri / tapahtumalistaus)
+
+- Käyttäjä voi lisätä tapahtuman, muokata tai poistaa tapahtuman kalenterin päivää tai tapahtumaa klikkaamalla.
+
+- Tapahtumalista -näkymä listaa tulevat tapahtumat järjestyksessä, lähin pvm ensin. 
+
+- Listasta pystyy muokata tai poistaa tapahtuman. 
 
 - Käyttöliittymä on lokalisoitu suomeksi (esim. viikonpäivien lyhenteet)
 
