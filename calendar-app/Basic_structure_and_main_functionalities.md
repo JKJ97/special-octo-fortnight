@@ -12,6 +12,21 @@ Projektin teknologiat:
   - Testattu myös Debian-virtuaalikoneessa SSH:n ja Visual Studio Coden kautta
 - **Muut työkalut:** npm, Git, GitHub, VS Code, Oracle VirtualBox, Debian
 
+- **Riippuvuudet** 
+
+- **backend**
+- npm init -y 
+- npm install express sqlite3 cors
+
+- **frontend**
+- npx create-react app .
+- npm install axios
+- npm install react-calendar
+- npm install react-big-calendar date-fns
+- npm install react-bootstrap bootstrap
+- npm install moment 
+- npm install react-datetime
+
 ---
 
 ## 2. Backend
