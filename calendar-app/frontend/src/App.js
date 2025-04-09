@@ -6,7 +6,7 @@ import EditEventModal from './components/EditEventModal';
 import AddEventModal from './components/AddEventModal';
 import axios from 'axios';
 import { Toast, ToastContainer } from 'react-bootstrap';
-import './index.css';
+import './styles/index.css';
 
 export default function App() {
   const [view, setView] = useState('calendar');

@@ -47,8 +47,8 @@ Uizard UI prototyyppi:
 
 ## API-endpointit:
 | Metodi 	| Endpoint     	    | Toiminto                  |
-|---------|-------------------|---------------------------|
-| GET     | /api/events     	| Hae kaikki tapahtumat     |
+|---------  |-------------------|---------------------------|
+| GET       | /api/events     	| Hae kaikki tapahtumat     |
 | POST   	| /api/events     	| Lisää uusi tapahtuma      |
 | GET    	| /api/events/:id 	| Hae yksittäinen tapahtuma |
 | PUT    	| /api/events/:id 	| Muokkaa tapahtumaa        |

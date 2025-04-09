@@ -7,7 +7,7 @@ import getDay from 'date-fns/getDay';
 import fi from 'date-fns/locale/fi';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import CustomToolbar from './CustomToolbar';
-import '../index.css';
+import '../styles/index.css';
 
 const locales = { fi };
 
