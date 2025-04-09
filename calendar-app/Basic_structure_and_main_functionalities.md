@@ -12,13 +12,13 @@ Projektin teknologiat:
   - Testattu myös Debian-virtuaalikoneessa SSH:n ja Visual Studio Coden kautta
 - **Muut työkalut:** npm, Git, GitHub, VS Code, Oracle VirtualBox, Debian
 
-- **Riippuvuudet** 
+ **Riippuvuudet:** 
 
-- **backend**
+  **backend**
 - npm init -y 
 - npm install express sqlite3 cors
 
-- **frontend**
+  **frontend**
 - npx create-react app .
 - npm install axios
 - npm install react-calendar
