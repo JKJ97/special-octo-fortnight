@@ -9,6 +9,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import CustomToolbar from './CustomToolbar';
 import '../styles/index.css';
 
+// Localization configuration for Finnish language
 const locales = { fi };
 
 const localizer = dateFnsLocalizer({
@@ -19,10 +20,12 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
+// Calendar view component using react-big-calendar
 export default function CalendarView({ events, onAddEvent, onEventSelect }) {
   const [view, setView] = useState(Views.MONTH);
   const [date, setDate] = useState(new Date());
 
+  // Finnish translations for calendar labels
   const messages = {
     today: 'Tänään',
     previous: 'Edellinen',
@@ -37,12 +40,14 @@ export default function CalendarView({ events, onAddEvent, onEventSelect }) {
     noEventsInRange: 'Ei tapahtumia tällä aikavälillä',
   };
 
+   // Handle click on empty slot to trigger event creation
   const handleSelectSlot = ({ start }) => {
     if (onAddEvent) {
       onAddEvent(start);
     }
   };
 
+  // Custom styles and hover effects for calendar days
   const dayPropGetter = () => {
     return {
       style: {
@@ -58,6 +63,7 @@ export default function CalendarView({ events, onAddEvent, onEventSelect }) {
     };
   };
 
+  // Custom styles and hover effects for calendar events
   const eventPropGetter = () => {
     return {
       style: {
@@ -77,6 +83,7 @@ export default function CalendarView({ events, onAddEvent, onEventSelect }) {
     };
   };
 
+  // Render the calendar UI with event and style customizations
   return (
     <div style={{ height: '75vh', backgroundColor: 'white', padding: '1rem', borderRadius: '8px' }}>
       <Calendar
@@ -94,16 +101,16 @@ export default function CalendarView({ events, onAddEvent, onEventSelect }) {
         startAccessor="start"
         endAccessor="end"
         selectable
-        onSelectSlot={handleSelectSlot}
-        onSelectEvent={(event) => onEventSelect(event)}
+        onSelectSlot={handleSelectSlot}                          // User clicks empty day slot
+        onSelectEvent={(event) => onEventSelect(event)}          // User clicks existing event
         view={view}
         date={date}
-        onNavigate={(newDate) => setDate(new Date(newDate))}
-        onView={(newView) => setView(newView)}
+        onNavigate={(newDate) => setDate(new Date(newDate))}     // Navigating months/weeks/days
+        onView={(newView) => setView(newView)}                   // Changing view mode
         dayPropGetter={dayPropGetter}
         eventPropGetter={eventPropGetter}
         components={{
-          toolbar: CustomToolbar,
+          toolbar: CustomToolbar,                                // Custom navigation toolbar component
         }}
       />
     </div>

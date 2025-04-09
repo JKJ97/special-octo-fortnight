@@ -1,13 +1,16 @@
+/* Page-level background for sidebar layout */
 .page.sidebar-7-page {
     background: #1c1b23;
   }
   
+  /* Remove default button styles globally for sidebar layout */
   .page.sidebar-7-page button {
     background: transparent;
     border: 0;
     cursor: pointer;
   }
   
+  /* Collapsed sidebar (default state) */
   .sidebar-7 {
     position: absolute;
     z-index: 1;
@@ -20,15 +23,18 @@
     transition: 0.45s;
   }
   
+  /* Material icon size inside sidebar */
   .sidebar-7 .material-symbols-outlined {
     font-size: 20px;
   }
   
+  /* Expanded sidebar state */
   .sidebar-7.open {
     width: 190px;
     overflow: hidden;
   }
   
+  /* Wrapper inside sidebar holding all content (nav, header) */
   .sidebar-7 .inner {
     position: absolute;
     top: 0;
@@ -39,6 +45,7 @@
     flex-direction: column;
   }
   
+  /* Optional header (e.g., logo area inside sidebar) */
   .sidebar-7 header {
     display: flex;
     align-items: center;
@@ -51,6 +58,7 @@
     font-size: 18px;
   }
   
+  /* Hamburger button to toggle sidebar */
   .sidebar-7-burger {
     position: fixed;
     z-index: 2;
@@ -63,10 +71,12 @@
     color: #f9f9f9;
   }
   
+  /* Optional logo */
   .sidebar-7 header > img {
     height: 18px;
   }
   
+  /* Sidebar navigation styles */
   .sidebar-7 nav {
     display: flex;
     flex-direction: column;
@@ -76,6 +86,7 @@
     padding: 60px 8px 20px;
   }
   
+  /* Sidebar buttons (collapsed state) */
   .sidebar-7 nav > button {
     display: flex;
     gap: 12px;
@@ -92,18 +103,22 @@
     margin-top: 10px;
   }
   
+  /* Last button has smaller top margin */
   .sidebar-7 nav > button:last-child {
     margin-top: 2px;
   }
   
+  /* Hover effect for buttons */
   .sidebar-7 nav > button:hover {
     background: rgb(0 0 0 / 24%);
   }
   
+  /* Hide text labels when sidebar is collapsed */
   .sidebar-7:not(.open) nav p {
     visibility: hidden;
   }
   
+  /* Show tooltip-style label on hover in collapsed state */
   .sidebar-7:not(.open) nav > button:hover p {
     opacity: 1;
     visibility: visible;
@@ -114,20 +129,24 @@
     translate: 12px 0;
   }
   
+  /* Fade in animation for expanding text/image */
   .sidebar-7 header > img,
   .sidebar-7 nav > button p {
     opacity: 0;
     transition: 0.25s;
   }
   
+  /* When sidebar is open, make text and images fully visible */
   .sidebar-7.open :is(nav button p, header > img) {
     opacity: 1;
   }
   
+  /* Buttons take full width when expanded */
   .sidebar-7.open nav > button {
     width: 100%;
   }
   
+  /* Responsive behavior for small screens */
   @media (width <= 400px) {
     .sidebar-7 {
       translate: -100% 0;

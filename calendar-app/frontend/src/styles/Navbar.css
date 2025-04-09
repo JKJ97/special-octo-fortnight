@@ -1,7 +1,8 @@
+/* Main container for the top navigation bar */
 .navbar-container {
     position: fixed;
     top: 0;
-    left: 56px; /* tämä vastaa sivupalkin leveyttä */
+    left: 56px; 
     right: 0;
     height: 64px;
     background-color: #ffffff;
@@ -13,12 +14,14 @@
     z-index: 1000;
   }
   
+  /* Application title text styling */
   .navbar-title {
     font-size: 20px;
     font-weight: bold;
     margin: 0;
   }
   
+  /* Project name text on the right side */
   .navbar-project-name {
     margin: 0;
     font-size: 14px;

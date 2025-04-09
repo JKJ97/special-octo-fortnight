@@ -2,7 +2,9 @@ import React from "react";
 import { Card, ListGroup, Button, ButtonGroup, Row, Col } from "react-bootstrap";
 import axios from "axios";
 
+// Component to display a list view of upcoming events in card format
 export default function EventListView({ events, onEventDeleted, onEventEdit }) {
+  // Handles deletion of an event after user confirmation
   const handleDelete = (id) => {
     if (window.confirm("Haluatko varmasti poistaa tapahtuman?")) {
       axios
@@ -12,16 +14,15 @@ export default function EventListView({ events, onEventDeleted, onEventEdit }) {
     }
   };
 
+  // Sort events chronologically by start time
   const sortedEvents = [...events].sort(
     (a, b) => new Date(a.start_time) - new Date(b.start_time)
   );
 
   return (
     <Row className="mt-5">
-      {/* Vasen tyhjä tila */}
       <Col md={1} lg={2} />
 
-      {/* Itse kortti vasemmalla, mutta ei ihan reunassa */}
       <Col md={10} lg={8}>
         <Card>
           <Card.Body>
@@ -80,8 +81,6 @@ export default function EventListView({ events, onEventDeleted, onEventEdit }) {
           </Card.Body>
         </Card>
       </Col>
-
-      {/* Pienempi tyhjä tila oikealla, tai ei ollenkaan */}
       <Col md={1} />
     </Row>
   );

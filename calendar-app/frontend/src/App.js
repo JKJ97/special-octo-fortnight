@@ -8,21 +8,29 @@ import axios from "axios";
 import { Toast, ToastContainer } from "react-bootstrap";
 import "./styles/index.css";
 
+// Root component of the application
 export default function App() {
+   // State for current view mode: 'calendar' or 'list'
   const [view, setView] = useState("calendar");
+
+  // Event data and modal states
   const [events, setEvents] = useState([]);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [eventToEdit, setEventToEdit] = useState(null);
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [addDefaultDate, setAddDefaultDate] = useState(null);
+
+   // Toast notification state
   const [toastMessage, setToastMessage] = useState("");
   const [toastVariant, setToastVariant] = useState("success");
   const [showToast, setShowToast] = useState(false);
 
+  // Load events on first render
   useEffect(() => {
     fetchEvents();
   }, []);
 
+  // Fetch all events from backend API
   const fetchEvents = () => {
     axios
       .get("http://localhost:3001/api/events")
@@ -30,11 +38,13 @@ export default function App() {
       .catch((err) => console.error(err));
   };
 
+  // Open edit modal with selected event
   const handleEditEvent = (event) => {
     setEventToEdit(event);
     setEditModalOpen(true);
   };
 
+  // Triggered when user clicks an empty day in the calendar
   const handleAddEventFromCalendar = (date) => {
     const start = new Date(date);
     start.setHours(10, 0, 0, 0);
@@ -44,6 +54,7 @@ export default function App() {
     setAddModalOpen(true);
   };
 
+  // Display a toast message with given text and variant (success, danger, etc.)
   const showMessage = (message, variant = "success") => {
     setToastMessage(message);
     setToastVariant(variant);
@@ -52,6 +63,7 @@ export default function App() {
 
   return (
     <>
+    {/* Main layout with navigation and view switching */}
       <MainLayout onNavChange={setView}>
         {view === "calendar" && (
           <CalendarView
@@ -72,6 +84,7 @@ export default function App() {
         )}
       </MainLayout>
 
+      {/* Modal to add a new event */}
       <AddEventModal
         show={addModalOpen}
         onHide={() => {
@@ -85,6 +98,7 @@ export default function App() {
         }}
       />
 
+      {/* Modal to edit or delete an existing event */}
       <EditEventModal
         show={editModalOpen}
         onHide={() => setEditModalOpen(false)}
@@ -100,6 +114,7 @@ export default function App() {
         }}
       />
 
+      {/* Toast notification shown in the top-right corner */}
       <ToastContainer position="top-end" className="p-3">
         <Toast
           bg={toastVariant}

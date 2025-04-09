@@ -6,8 +6,10 @@ import "react-datetime/css/react-datetime.css";
 import moment from "moment";
 import "moment/locale/fi";
 
+// Set moment locale to Finnish
 moment.locale("fi");
 
+// Modal component to edit or delete an existing event
 export default function EditEventModal({
   show,
   onHide,
@@ -15,6 +17,7 @@ export default function EditEventModal({
   onSave,
   onDelete,
 }) {
+  // State to hold editable form data
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -23,6 +26,7 @@ export default function EditEventModal({
     end_time: moment().add(1, "hours"),
   });
 
+ // Populate form when the event prop is updated (e.g. user selects an event)
   useEffect(() => {
     if (event) {
       setFormData({
@@ -35,11 +39,13 @@ export default function EditEventModal({
     }
   }, [event]);
 
+  // Handle form field changes for text inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Submit updated event data to backend
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -52,23 +58,25 @@ export default function EditEventModal({
     axios
       .put(`http://localhost:3001/api/events/${event.id}`, updatedEvent)
       .then(() => {
-        onSave();
-        onHide();
+        onSave(); // Notify parent component (e.g. to refresh events)
+        onHide(); // Close the modal
       })
       .catch((err) => console.error("Päivitysvirhe:", err));
   };
 
+  // Delete the event from the backend
   const handleDeleteEvent = () => {
     axios
       .delete(`http://localhost:3001/api/events/${event.id}`)
       .then(() => {
-        if (onDelete) onDelete();
+        if (onDelete) onDelete(); // Notify parent component and close modal
       })
       .catch((error) => {
         console.error("Virhe poistettaessa tapahtumaa:", error);
       });
   };
 
+  // Render the modal with form inputs and action buttons
   return (
     <Modal show={show} onHide={onHide} centered size="md">
       <Modal.Header closeButton>
@@ -76,6 +84,8 @@ export default function EditEventModal({
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
+
+          {/* Title input */}
           <Form.Group className="mb-3">
             <Form.Label>Otsikko</Form.Label>
             <Form.Control
@@ -86,6 +96,8 @@ export default function EditEventModal({
               required
             />
           </Form.Group>
+
+           {/* Description input */}
           <Form.Group className="mb-3">
             <Form.Label>Kuvaus</Form.Label>
             <Form.Control
@@ -96,6 +108,8 @@ export default function EditEventModal({
               onChange={handleChange}
             />
           </Form.Group>
+
+           {/* Location input */}
           <Form.Group className="mb-3">
             <Form.Label>Sijainti</Form.Label>
             <Form.Control
@@ -105,6 +119,8 @@ export default function EditEventModal({
               onChange={handleChange}
             />
           </Form.Group>
+
+           {/* Start and End time inputs */}
           <Row>
             <Col>
               <Form.Group className="mb-3">
@@ -135,6 +151,8 @@ export default function EditEventModal({
               </Form.Group>
             </Col>
           </Row>
+
+           {/* Action buttons */}
           <div className="d-flex justify-content-between">
             <Button variant="primary" type="submit">
               Tallenna muutokset

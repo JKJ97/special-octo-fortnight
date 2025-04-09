@@ -7,13 +7,16 @@ import { Row, Col, Form, Button } from 'react-bootstrap';
 
 moment.locale('fi');
 
+// Component for rendering the event creation form
 export default function AddEventForm({ onEventAdded, defaultDate }) {
+  // State variables for form fields
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
   const [start, setStart] = useState(moment());
   const [end, setEnd] = useState(moment().add(1, 'hours'));
 
+  // If a default start/end date is provided (e.g. from calendar click), use it to populate the form
   useEffect(() => {
     if (defaultDate?.start && defaultDate?.end) {
       setStart(moment(defaultDate.start));
@@ -21,6 +24,7 @@ export default function AddEventForm({ onEventAdded, defaultDate }) {
     }
   }, [defaultDate]);
 
+  // Submits the form to the backend API and triggers callback on success
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -38,10 +42,11 @@ export default function AddEventForm({ onEventAdded, defaultDate }) {
       body: JSON.stringify(newEvent),
     })
       .then(res => res.json())
-      .then(() => onEventAdded())
+      .then(() => onEventAdded()) // Callback to refresh event list or calendar
       .catch(err => console.error(err));
   };
 
+  // Render the form with inputs for title, description, location, and datetime pickers
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group className="mb-3">

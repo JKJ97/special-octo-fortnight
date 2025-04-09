@@ -5,10 +5,11 @@ const db = require('./db');
 const app = express();
 const port = 3001;
 
+//Middlewares
 app.use(cors());
 app.use(express.json());
 
-// Hae kaikki tapahtumat
+// Get all events
 app.get('/api/events', (req, res) => {
   db.all('SELECT * FROM events', [], (err, rows) => {
     res.set('Content-Type', 'application/json; charset=utf-8');
@@ -20,7 +21,7 @@ app.get('/api/events', (req, res) => {
   });
 });
 
-// Lisää uusi tapahtuma
+// Add new event
 app.post('/api/events', (req, res) => {
   const { title, description, location, start_time, end_time } = req.body;
   const query = `INSERT INTO events (title, description, location, start_time, end_time) VALUES (?, ?, ?, ?, ?)`;
@@ -36,7 +37,7 @@ app.post('/api/events', (req, res) => {
   });
 });
 
-// Muokkaa olemassa olevaa tapahtumaa
+// Edit existing event
 app.put('/api/events/:id', (req, res) => {
   const { title, description, location, start_time, end_time } = req.body;
   const { id } = req.params;
@@ -60,7 +61,7 @@ app.put('/api/events/:id', (req, res) => {
   });
 });
 
-// Poista tapahtuma
+// Delete event
 app.delete('/api/events/:id', (req, res) => {
   const { id } = req.params;
 
@@ -76,6 +77,7 @@ app.delete('/api/events/:id', (req, res) => {
   });
 });
 
+// Start server
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
