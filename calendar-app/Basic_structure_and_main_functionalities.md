@@ -79,7 +79,7 @@ Selkeä vastuunjako:
 
 ---
 
-6. Toiminnallisuudet
+## 6. Toiminnallisuudet
 Toteutettu:
 
 - Tapahtuman lisääminen
